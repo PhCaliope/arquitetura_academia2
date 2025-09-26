@@ -1,34 +1,46 @@
-# Arquitetura Academia
+CREATE DATABASE IF NOT EXISTS arquitetura_academia;
+USE arquitetura_academia;
 
-## Objetivo do Projeto
-Desenvolver uma plataforma integrada para gestão de academia, contemplando aplicativos web e mobile, módulo de pagamentos, biometria e infraestrutura em nuvem.
+-- Tabelas representando os componentes do sistema
+CREATE TABLE FrontEnd_Web (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100) DEFAULT 'React + TypeScript'
+);
 
-## Descrição Funcional
-- Front-end Web: portal administrativo em React + TypeScript.
-- Mobile App: aplicação para usuários finais em Flutter.
-- API Backend: Node.js + NestJS.
-- Banco de Dados: PostgreSQL hospedado em RDS AWS.
-- Integração com Gateway de Pagamento.
-- Módulo de Biometria para autenticação de usuários.
-- Infraestrutura em AWS.
+CREATE TABLE Mobile_App (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100) DEFAULT 'Flutter'
+);
 
-## Visão Geral da Arquitetura
-![Diagrama de Arquitetura](docs/diagrama_arquitetura.png)
+CREATE TABLE API_Backend (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100) DEFAULT 'Node.js + NestJS'
+);
 
-## Tecnologias Propostas
-- Front-end Web: React + TypeScript
-- Mobile App: Flutter
-- Backend: Node.js + NestJS
-- Banco de Dados: PostgreSQL (AWS RDS)
-- Infraestrutura: AWS
-- Controle de versão: Git/GitHub
+CREATE TABLE Database_Postgres (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100) DEFAULT 'PostgreSQL (RDS AWS)'
+);
 
-## Cronograma Etapa 2 (N708)
-| Semana | Atividade |
-|--------|-----------|
-| 1      | Levantamento de requisitos detalhados |
-| 2      | Criação do banco de dados e scripts iniciais |
-| 3      | Desenvolvimento do backend e APIs |
-| 4      | Desenvolvimento do front-end Web |
-| 5      | Desenvolvimento do aplicativo mobile |
-| 6      | Testes integrados e ajustes finais |
+CREATE TABLE Biometria (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100) DEFAULT 'Módulo Biometria'
+);
+
+CREATE TABLE Pagamento (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100) DEFAULT 'Integração com Gateway'
+);
+
+CREATE TABLE Infra_AWS (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(100) DEFAULT 'Infraestrutura em AWS'
+);
+
+-- Simulando ligações via FOREIGN KEYS (apenas para visualização)
+ALTER TABLE FrontEnd_Web ADD COLUMN backend_id INT, ADD FOREIGN KEY (backend_id) REFERENCES API_Backend(id);
+ALTER TABLE Mobile_App ADD COLUMN backend_id INT, ADD FOREIGN KEY (backend_id) REFERENCES API_Backend(id);
+ALTER TABLE API_Backend ADD COLUMN db_id INT, ADD FOREIGN KEY (db_id) REFERENCES Database_Postgres(id);
+ALTER TABLE API_Backend ADD COLUMN biometria_id INT, ADD FOREIGN KEY (biometria_id) REFERENCES Biometria(id);
+ALTER TABLE API_Backend ADD COLUMN pagamento_id INT, ADD FOREIGN KEY (pagamento_id) REFERENCES Pagamento(id);
+ALTER TABLE API_Backend ADD COLUMN infra_id INT, ADD FOREIGN KEY (infra_id) REFERENCES Infra_AWS(id);
